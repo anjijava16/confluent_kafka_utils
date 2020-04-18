@@ -1,5 +1,3 @@
-# confluent_kafka_utils
-
 #Confluent Kafka Setup 
 
 # Default Port 
@@ -82,6 +80,30 @@ ksql-server is [UP]
 
 cd /home/welcome/work_inst/confluent-5.4.1-2.12/confluent-5.4.1
 
+
+# Input Sources 
+   Files,Database ,Real time data 
+   
+# Producer : 
+		  Kafak Producer 
+		 Kafka Connect Source
+
+
+# kafka
+		 Kafka Streams 
+		 KSQL 
+ 
+# Consumer 
+		Kafka Consumer 
+		Kafka COnnect Sink
+
+#Target 
+	Target Database  
+	 Target System (NOSQL,Any FIle System) 
+ 
+
+
+
 # Create Topic as users 
 ./bin/kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic users	
 
@@ -152,27 +174,105 @@ RUN SCRIPT '/home/welcome/work_inst/confluent-5.4.1-2.12/confluent-5.4.1/demo/cl
    show tables;
    
 ksql> SET 'auto.offset.reset'='earliest';
- 
- 
-# Input Sources 
-   Files,Database ,Real time data 
-   
-# Producer : 
-   
- Kafak Producer 
- Kafka Connect Source
 
 
-# kafka
- Kafka Streams 
- KSQL 
- 
-# Consumer 
-Kafka Consumer 
-Kafka COnnect Sink
+# Data Generation by Default have in KSQL-datagen 
+# KSQL-datagen
+./bin/ksql-datagen quickstart=clickstream format=json topic=clickstream maxInterval=100 iterations=50000
 
-#Target 
-  Target Database  
+# By default KSQL-datagen below events info using above CLI Command 
+    [CLICKSTREAM_CODES, CLICKSTREAM, CLICKSTREAM_USERS, ORDERS, RATINGS, USERS, USERS_, PAGEVIEWS] (case-insensitive)
+
+
+welcome@welcome-Inspiron-5558:~/work_inst/confluent-5.4.1-2.12/confluent-5.4.1$ ./bin/ksql-datagen  quickstart =clickstream format=json topic =clickstream maxInterval=100 iterations=50000
+Invalid argument format in 'quickstart'; expected <name>=<value>
+usage: DataGen 
+[help] 
+[bootstrap-server=<kafka bootstrap server(s)> (defaults to localhost:9092)] 
+[quickstart=<quickstart preset> (case-insensitive; one of 'orders', 'users', or 'pageviews')] 
+schema=<avro schema file> 
+[schemaRegistryUrl=<url for Confluent Schema Registry> (defaults to http://localhost:8081)] 
+key-format=<message key format> (case-insensitive; one of 'avro', 'json', 'kafka' or 'delimited') 
+value-format=<message value format> (case-insensitive; one of 'avro', 'json' or 'delimited') 
+topic=<kafka topic name> 
+key=<name of key column> 
+[iterations=<number of rows> (if no value is specified, datagen will produce indefinitely)] 
+[maxInterval=<Max time in ms between rows> (defaults to 500)] 
+[propertiesFile=<file specifying Kafka client properties>] 
+[nThreads=<number of producer threads to start>] 
+[msgRate=<rate to produce in msgs/second>] 
+[printRows=<true|false>]
+
+welcome@welcome-Inspiron-5558:~/work_inst/confluent-5.4.1-2.12/confluent-5.4.1$ ./bin/ksql-datagen quickstart=clickstream format=json topic=clickstream maxInterval=100 iterations=50000
+
+./bin/ksql-datagen quickstart=clickstream format=json topic=clickstream maxInterval=100 iterations=50000
+
+
+./bin/kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic clickstream
+	
+./bin/ksql-datagen -daemon quickstart =clickstream format=json topic =clickstream maxInterval=100 iterations=50000
+CREATE STREAm clickstream(_time BIGINT, time VARCHAR ,ip VARCHAR , request VARCHAR , status INT,userid INT ,bytes BIGINT ,agent VARCHAR) WITH (KAFKA_TOPIC='clickstream',VALUE_FORMAT='JSON')
+
+SELECT * FROM clisteam emit CHNAGS;
+select * from CLICKSTREAM EMIT CHANGES limit 10;
+
+./bin/kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic clickstream_codes
+
+./bin/ksql-datagen quickstart=clickstream_codes format=json topic=clickstream_codes maxInterval=100 iterations=10
+
+# Select Stream 
+SELECT * from CLICKSTREAM_CODES EMIT CHANGES;
+
+
+./bin/kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic web_users
+./bin/ksql-datagen quickstart=web_users format=json topic=web_users maxInterval=100 iterations=10
+
+# Show commands 
+show streams; list streams ;
+
+show tables; or list tables ;
+
+show queries ;
+show properties 
+
+# Terminates Queries
+  terminate query_id 
+
+# Print Streams (OR) tables 
+print clickstream;
+
+# describe stream
+  describe clickstream 
+  describe extended clickstream 
+# Drop streams or tables   
+  drop stream clickstream 
+  drop table clickstream 
+  
+  
+  
+#Stream vs Table 
+   # Stream 
+     A Steam is an unbounded sequence of events : Immutable 
+	   It is similar to Under Kafka Topic data 
+	   
+	   KStream ==>> List / Stream ===> KSQL (Stream) ===>> List / Stream[(K,V)] : Python []
+  # Table 	 
+	 A Table is a materilazied view of events with only the latest value for each key.
+	 It is latest account balance ,per user that evolves with each transaction .
+	 Table :===> KTable ==> Table ===> HashMap ===> mutable.map[K,V] {}
+	 
+	 
+		Stream : Current and Full history  : commit history  (git log)
+		Table : current info  : repo at commit (git checkout <<commit >> )
+
+
+create stream user_clickstream as select userid,u.username,ip,	
+
+
+
+ Topic is a stream of continuous data ,never ending data 
+ 
+ 
  
  
  ##  Kafka is not a 
@@ -218,10 +318,9 @@ KSQL : SQL Interface Kafka Streams
 	
 	UI (KSQL Client ) ---> KSQL engine or KSQL REST ---> Kafka Server 
 	
-	
-	
-	
-Kafka Connect :
+
+
+# Kafka Connect :
 
  Application1  --->> Database --->>> Copy to SnowFlake DB 
 
@@ -278,4 +377,5 @@ Input Data mus be Kafka Topic
 You can embed kafka Streams in yours microservices
 Deploy anywhere (No Cluster needed)
 Out of box parallel processing,scalability and fault tolerane...
+
 

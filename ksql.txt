@@ -13,3 +13,5 @@ Facts in a table are mutable, which means new facts can be inserted to the table
 Tables can be created from a Kafka topic or derived from existing streams and tables. 
 In both cases, a table’s underlying data is durably stored (persisted) within a Kafka topic on the Kafka brokers.
 
+https://docs.confluent.io/4.1.0/ksql/docs/syntax-reference.html#run-script
+

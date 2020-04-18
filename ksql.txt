@@ -1,3 +1,5 @@
+# https://docs.confluent.io/4.1.0/ksql/docs/syntax-reference.html#run-script
+
 Stream
 A stream is an unbounded sequence of structured data (“facts”). For example, 
 we could have a stream of financial transactions such as “Alice sent $100 to Bob, then Charlie sent $50 to Bob”. 

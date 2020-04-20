@@ -14,6 +14,7 @@
 
 #Confluent Hub 
 https://www.confluent.io/hub/
+https://www.confluent.io/blog/simplest-useful-kafka-connect-data-pipeline-world-thereabouts-part-1/
 
 
 

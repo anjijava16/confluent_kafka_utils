@@ -1,9 +1,9 @@
 
-# Kafka Connector 
+ Kafka Connector 
+-----------------------------------------------------
+Sources ===> Kafka Connecot ===>> Kafka Brokers 
 
-	Sources ===> Kafka Connecot ===>> Kafka Brokers 
-
-	Kafka Brokers ===>> Kafka Connector ===> Sinks 
+Kafka Brokers ===>> Kafka Connector ===> Sinks 
 
 {
 "connector.class":"io.confluent.connector.jdbc.JDBCSourceConnector",
@@ -12,20 +12,22 @@
 
 }
 
-#Confluent Hub 
+Confluent Hub 
+--------------------------------------
 https://www.confluent.io/hub/
 https://www.confluent.io/blog/simplest-useful-kafka-connect-data-pipeline-world-thereabouts-part-1/
 
 
-
-# Streaming PipeLines
+ Streaming PipeLines
+ --------------------------------------
    RDBMS ----> Kafka Connector --->> Kafka Brokers --->Kafka Connector ====> Amazon S3
    
-# Streaming PipeLines write into S3 && HDFS 
+ Streaming PipeLines write into S3 && HDFS 
+--------------------------------------
       RDBMS ----> Kafka Connector --->> Kafka Brokers --->Kafka Connector ====> Amazon S3
                                                                                      --->Kafka Connector ====> HDFS 
 																					 
-# 
+
 
   Exsiting APP ---> RDBMS --->> Kafka Connect ---> Kafka Brokers ---> 
   

@@ -1,5 +1,15 @@
 #Confluent Kafka Setup 
 
+# Start Confulenct Kafka
+
+export CONFLUENT_HOME=/Users/welcome/Desktop/Tech_Work/install/confluent-7.0.0
+
+export PATH=$PATH:$CONFLUENT_HOME/bin
+
+confluent local services start
+
+http://localhost:9021/clusters
+
 # Default Port 
 
 #	Component	Port
